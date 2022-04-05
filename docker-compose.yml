@@ -5,7 +5,7 @@ services: #list of services we want to run as part of our application
   app: #name of the service, it will automatically become a network alias | "--network-alias" option with docker run
 
     image: node:12-alpine #image to pull as base of the container | "FROM" in a Dockerfile
-    command: sh -c "yarn install && run dev" #run the following command into the container | "RUN" in a Dockerfile
+    command: sh -c "yarn install && yarn run dev" #run the following command into the container | "RUN" in a Dockerfile
     ports:
       - "3000:3000" #binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
     expose:
@@ -29,3 +29,6 @@ services: #list of services we want to run as part of our application
 
 volumes:
   todo-mysql-data: #create the volume todo-mysql-data in /var/lib/docker/volume on host (acces might be restrained) | equivalent to "docker volume create todo-mysql-data" command
+
+#run with docker-compose up -d | -d option to run it in the background
+#docker-compose create a default network for the application
