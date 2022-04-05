@@ -1,0 +1,31 @@
+version: "4.0" #version of docker-compose
+
+services: #list of services we want to run as part of our application
+
+  app: #name of the service, it will automatically become a network alias | "--network-alias" option with docker run
+
+    image: node:12-alpine #image to pull as base of the container | "FROM" in a Dockerfile
+    command: sh -c "yarn install && run dev" #run the following command into the container | "RUN" in a Dockerfile
+    ports:
+      - "3000:3000" #binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
+    expose:
+      - "80" #publish the container port 80 to other services but not to host | note: "EXPOSE" in a Dockerfile does not actually publish the port, you have to use -p option with docker run or expose/ports in docker-compose to publish it link: https://docs.docker.com/engine/reference/builder/#expose
+    working_dir: /app #set the working directory inside the container to /app | "-w /app" option in docker run | "WORKDIR" in a Dockerfile
+    volumes:
+      - ./:/app #maps the volume ./ (relative to the docker-compose.yml) to /app of the container | "-v $(pwd):/app" option with docker run | binded volume
+    environment: #environment variable passed to the container | "-e ENV_VAR_NAME: env_var_value" option with docker run
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+  
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - todo-mysql-data:/var/lib/mysql #maps the volume todo-mysql-data to /var/lib/mysql of the container | "-v todo-mysql-data:/var/lib/mysql" option with docker run | named volume
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes:
+  todo-mysql-data: #create the volume todo-mysql-data in /var/lib/docker/volume on host (acces might be restrained) | equivalent to "docker volume create todo-mysql-data" command
