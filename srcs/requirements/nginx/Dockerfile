@@ -15,7 +15,7 @@ COPY tools/wordpress.conf /etc/nginx/sites-enabled
 # COPY our wordpress website server configuration file to the container, this is included in the global nginx configuration file
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -subj "/C=BE/ST=Belgium/L=Brussels/O=19/CN=rlinkov" \
+    -subj "/C=BE/ST=Brussels/L=Brussels/O=19/CN=rlinkov" \
     -keyout /etc/ssl/private/nginx-selfsigned.key \
 	-out /etc/ssl/certs/nginx-selfsigned.crt
 
@@ -34,3 +34,7 @@ CMD nginx -g "daemon off;"
 # this command is used to launch nginx in the foreground in the container instead of the background as a daemon (by default).
 # as a container is meant to only run one process we can run it in the foreground
 # as a container terminate when there is no more processes running in the foreground using this command is the way to ensure our nginx container will not terminate right after being setup
+
+EXPOSE 443
+
+# used to inform that this container will provide service on port 443
