@@ -18,8 +18,8 @@ RUN apt-get install -y php7.3-fpm php7.3-common php7.3-mysql \
 WORKDIR /var/www/html/
 
 RUN wget https://wordpress.org/latest.tar.gz
-RUN tar xf latest.tar.gz 
-RUN rm latest.tar.gz
+RUN tar -xvzf latest.tar.gz 
+# RUN rm latest.tar.gz
 
 #download wordpress, unzip it then remove the zip
 
