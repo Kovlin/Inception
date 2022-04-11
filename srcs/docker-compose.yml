@@ -1,4 +1,4 @@
-version: "3.0" # version of docker-compose
+version: '3.7' # version of docker-compose
 
 services: # list of services we want to run as part of our application
 
@@ -45,21 +45,19 @@ networks:
 
 volumes:
   wp_volume:
-    driver:
-      - local
+    driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/rlinkov/data/wp_volume # Linux VM
-      # device:../volumes/wp_volume #MacOS
-  dp_volume:
-    driver:
-      - local
+      # device: /home/rlinkov/data/wp_volume # Linux VM
+      device: ../volumes/wp_volume #MacOS
+  db_volume:
+    driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/rlinkov/data/db_volume #Linux VM
-      # device: ../volumes/db_volume # MacOS
+      # device: /home/rlinkov/data/db_volume #Linux VM
+      device: ../volumes/db_volume # MacOS
 
 # run with docker-compose up -d | -d option to run it in the background
 # docker-compose create a default network for the application
