@@ -11,10 +11,8 @@ COPY tools/50-server.cnf /etc/mysql/mariadb.conf.d
 
 COPY tools/entrypoint.sh ./
 
-# script used to start, configure database and run it in foreground
+# script used to configure mariadb-server, create wordpress database and run mariadb-server in foreground
 
 EXPOSE 3306
 
 ENTRYPOINT ["./entrypoint.sh"]
-
-#ou shell form ?

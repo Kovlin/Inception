@@ -44,6 +44,5 @@ WORKDIR /var/www/html/wordpress
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-# install and configure wordpress with wp-cli if it not installed yet then
+# install and configure wordpress with wp-cli if it not installed yet
 # start php-fpm in foreground, --nodaemonize bypass any conf file
-# there should be only one CMD as it is used everytime we start the image built from this Dockerfile

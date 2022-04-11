@@ -8,10 +8,12 @@ services: # list of services we want to run as part of our application
     ports:
       - "443:443" # binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
     volumes:
-      - ../volumes/wp_volume/:/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
+      - /home/rlinkov/data/wp_volume:/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
     networks:
       - inception
     restart: always # restart the service if it crashes
+    depends_on:
+      - wordpress
     container_name: nginx
 
   wordpress:
@@ -19,7 +21,7 @@ services: # list of services we want to run as part of our application
     env_file:
       - .env
     volumes:
-      - ../volumes/wp_volume/:/var/www/html
+      - /home/rlinkov/data/wp_volume:/var/www/html
     networks:
       - inception
     restart: always
@@ -32,7 +34,7 @@ services: # list of services we want to run as part of our application
     env_file:
       - .env
     volumes:
-      - ../volumes/db_volume:/var/lib/mysql
+      - /home/rlinkov/data/db_volume:/var/lib/mysql
     networks:
       - inception
     restart: always
@@ -43,4 +45,4 @@ networks:
 
 # run with docker-compose up -d | -d option to run it in the background
 # docker-compose create a default network for the application
-# docker-compose build to rebuild image altering Dockerfile
+# docker-compose build to rebuild image after altering Dockerfile
