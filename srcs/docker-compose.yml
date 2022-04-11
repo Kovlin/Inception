@@ -8,7 +8,9 @@ services: # list of services we want to run as part of our application
     ports:
       - "443:443" # binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
     volumes:
-      - wp_volume:/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
+      - ../volumes/wp_volume :/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
+    # volumes:
+    #   - /home/rlinkov/data/wp_volume:/var/www/html #Linux VM    
     networks:
       - inception
     restart: always # restart the service if it crashes
@@ -21,7 +23,9 @@ services: # list of services we want to run as part of our application
     env_file:
       - .env
     volumes:
-      - wp_volume:/var/www/html
+      - ../volumes/wp_volume :/var/www/html
+    # volumes:
+    #   - /home/rlinkov/data/wp_volume:/var/www/html #Linux VM
     networks:
       - inception
     restart: always
@@ -34,7 +38,9 @@ services: # list of services we want to run as part of our application
     env_file:
       - .env
     volumes:
-      - db_volume:/var/lib/mysql
+      - ../volumes/db_volume:/var/lib/mysql
+    # volumes:
+    #   - /home/rlinkov/data/db_volume:/var/lib/mysql #Linux VM
     networks:
       - inception
     restart: always
@@ -42,22 +48,6 @@ services: # list of services we want to run as part of our application
 
 networks:
   inception: # create a network inception for the containers on this network to communicate | equivalent to docker network create inception command
-
-volumes:
-  wp_volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      # device: /home/rlinkov/data/wp_volume # Linux VM
-      device: ../volumes/wp_volume #MacOS
-  db_volume:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      # device: /home/rlinkov/data/db_volume #Linux VM
-      device: ../volumes/db_volume # MacOS
 
 # run with docker-compose up -d | -d option to run it in the background
 # docker-compose create a default network for the application
