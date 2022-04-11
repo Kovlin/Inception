@@ -23,3 +23,4 @@ echo 'user42' | sudo -S chmod 0444 /etc/hosts
 
 echo 'user42' | sudo -S service nginx stop
 echo 'user42' | sudo -S systemctl start docker
+echo 'user42' | sudo -S hostnamectl
