@@ -28,12 +28,13 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # -keyout			to specify the location of the output 'nginx-selfsigned.key' file
 # -out				to specify the location of the output 'nginx-selfsigned.crt' file
 
-CMD nginx -g "daemon off;" 
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 # -g "daemon off;"	to set global configuration "directives", will add line between quotes to nginx global configuration (nginx.conf)
 # this command is used to launch nginx in the foreground in the container instead of the background as a daemon (by default).
 # as a container is meant to only run one process we can run it in the foreground
 # as a container terminate when there is no more processes running in the foreground using this command is the way to ensure our nginx container will not terminate right after being setup
+# ENTRYPOINT works similarly to CMD but cannot be overridden by adding paramaters to a docker run command
 
 EXPOSE 443
 

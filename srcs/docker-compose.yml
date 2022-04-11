@@ -1,4 +1,4 @@
-version: "4.0" # version of docker-compose
+version: "2.4.0" # version of docker-compose
 
 services: # list of services we want to run as part of our application
 
@@ -8,20 +8,35 @@ services: # list of services we want to run as part of our application
     ports:
       - "443:443" # binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
     volumes:
-      - /Users/rlinkov/Documents/inceptionData/:/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
+      - ../volumes/wp_volume/:/var/www/html # maps the volume HOST:CONTAINER | "-v host_volume:container_volume" option with docker run
     networks:
       - inception
     restart: always # restart the service if it crashes
-    depends_on:
-      - wordpress
+    container_name: nginx
 
   wordpress:
     build: ./requirements/wordpress
+    env_file:
+      - .env
     volumes:
-      - /Users/rlinkov/Documents/inceptionData/:/var/www/html
+      - ../volumes/wp_volume/:/var/www/html
     networks:
       - inception
     restart: always
+    depends_on:
+      - mariadb
+    container_name: wordpress
+
+  mariadb:
+    build: ./requirements/mariadb
+    env_file:
+      - .env
+    volumes:
+      - ../volumes/db_volume:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+    container_name: mariadb
 
 networks:
   inception: # create a network inception for the containers on this network to communicate | equivalent to docker network create inception command
