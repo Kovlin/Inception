@@ -8,7 +8,9 @@ services: # list of services we want to run as part of our application
     ports:
       - "443:443" # binds the host port 3000 to the published container port 3000 (HOST:CONTAINER) | "-p 3000:3000" option with docker run
     volumes:
-      - /home/rlinkov/data/wp_volume:/var/www/html #Linux VM    
+      - ../volumes/wp_volume :/var/www/html
+    # volumes:
+    #   - /home/rlinkov/data/wp_volume:/var/www/html #Linux VM    
     networks:
       - inception
     restart: always # restart the service if it crashes
@@ -36,7 +38,9 @@ services: # list of services we want to run as part of our application
     env_file:
       - .env
     volumes:
-      - /home/rlinkov/data/db_volume:/var/lib/mysql #Linux VM
+      - ../volumes/db_volume :/var/lib/mysql
+    # volumes:
+    #   - /home/rlinkov/data/db_volume:/var/lib/mysql #Linux VM
     networks:
       - inception
     restart: always
